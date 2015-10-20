@@ -1,4 +1,4 @@
-html, body { height:100%; overflow:hidden; }
+html, body { height:100%; }
 body {
     margin:0;
     font-family: Arial, sans-serif;
@@ -7,7 +7,7 @@ body {
 .video {
     width: 640px;
     height: 360px;
-    box-shadow: 0 0 15px 0 rgba(0,0,0,0.5);
+    border: 12px solid #993e96;
 }
 
 .wrapper {
@@ -22,7 +22,7 @@ body {
 .block-left {
     display: inline-block;
     vertical-align: top;
-    width: 640px;
+    width: 670px;
     padding: 10px 0;
     box-sizing: border-box;
 }
@@ -30,7 +30,7 @@ body {
 .block-right {
     display: inline-block;
     vertical-align: top;
-    width: 160px;
+    width: 130px;
     padding: 10px 15px;
     box-sizing: border-box;
 }
@@ -47,4 +47,22 @@ body {
     cursor: pointer;
     background: #000;
     box-shadow: 0 0 15px 0 rgba(0,0,0,0.5);
+}
+
+.img {
+    font-size: 12px;
+}
+
+.img img {
+    display: block;
+    max-height: 100%;
+    max-width: 100%;
+}
+
+.img > div {
+    padding: 5px;
+}
+
+#debug {
+    display: none;
 }

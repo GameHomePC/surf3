@@ -38,6 +38,6 @@ if (isset($GLOBALS["HTTP_RAW_POST_DATA"])) {
 	fwrite($fp, $im);
 	fclose($fp);
 
-    echo "filename=". $fileName ."&base=". $_SERVER["HTTP_HOST"].dirname($_SERVER["PHP_SELF"]) . $upload;
+    echo "filename=". $fileName ."&base=". $_SERVER["HTTP_HOST"].dirname($_SERVER["PHP_SELF"]) . $upload . '/';
 
 }

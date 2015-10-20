@@ -3,12 +3,24 @@ var App = (function(){
     var id = 'surf';
 	
 	var data = [{
-		url: 'http://c2364.paas2.ams.modxcloud.com/assets/as3/webx/assets/markers/boy.jpg',
-		name: 'boy'
+		links: {
+            url: 'http://c2364.paas2.ams.modxcloud.com/assets/as3/webx/assets/markers/alpen-cold-3.jpg',
+            background: 'http://c2364.paas2.ams.modxcloud.com/assets/as3/webx/assets/background/cocos.png'
+        },
+		name: 'cocos'
 	},{
-		url: 'http://c2364.paas2.ams.modxcloud.com/assets/as3/webx/assets/markers/checks.png',
-		name: 'checks'
-	}];
+        links: {
+            url: 'http://c2364.paas2.ams.modxcloud.com/assets/as3/webx/assets/markers/alpen-cold-1.jpg',
+            background: 'http://c2364.paas2.ams.modxcloud.com/assets/as3/webx/assets/background/hazelnut.png'
+        },
+		name: 'hazelnut'
+	},{
+        links: {
+            url: 'http://c2364.paas2.ams.modxcloud.com/assets/as3/webx/assets/markers/alpen-cold-2.jpg',
+            background: 'http://c2364.paas2.ams.modxcloud.com/assets/as3/webx/assets/background/max_fun.png'
+        },
+        name: 'max_fun'
+    }];
 	
     var options = {
         flashvars: {
@@ -48,6 +60,24 @@ var App = (function(){
         movie[methodName].apply(null, args)
     };
 
+    service.addDebug = function(){
+        var pointMatchFactor = document.getElementById('pointMatchFactor');
+        var threshold = document.getElementById('threshold');
+        var imageProcessor = document.getElementById('imageProcessor');
+
+        pointMatchFactor.addEventListener('change', function(e){
+            service.api('_pointMatchFactor', [pointMatchFactor.value]);
+        }, false);
+
+        threshold.addEventListener('change', function(e){
+            service.api('_pointsThreshold', [threshold.value]);
+        }, false);
+
+        imageProcessor.addEventListener('change', function(e){
+            service.api('_imageProcessor', [imageProcessor.checked]);
+        }, false);
+    };
+
     return service;
 
 })();
@@ -67,6 +97,8 @@ var App = (function(){
 			e.preventDefault();
 			App.api('_createScreen');
 		});
+
+        // App.addDebug();
 		
 	});
 
@@ -74,6 +106,24 @@ var App = (function(){
 
 function _createScreen(data){
     console.log(data);
+
+    var parse;
+    try {
+        parse = JSON.parse(data);
+
+        if ('type' in parse){
+            switch(parse.type){
+                case 'complete':
+                    var img_src = document.getElementById('img_src');
+                    var img = document.getElementById('img');
+                    img_src.innerHTML = parse.path;
+                    img.src = parse.path;
+                    break;
+                default:
+            }
+        }
+
+    } catch(err){}
 }
 
 function _detectImage(data){
@@ -82,4 +132,16 @@ function _detectImage(data){
 
 function _debug(name){
 	console.log(name);
+}
+
+function _pointMatchFactor(value){
+    console.log(value);
+}
+
+function _pointsThreshold(value){
+    console.log(value);
+}
+
+function _imageProcessor(value){
+    console.log(value);
 }

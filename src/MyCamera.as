@@ -9,6 +9,7 @@ package
 	import flash.net.URLLoader;
 	import flash.net.URLRequest;
 	import flash.net.URLRequestHeader;
+	import flash.net.URLVariables;
 	import flash.utils.ByteArray;
 	
 	import com.adobe.images.JPGEncoder;
@@ -93,32 +94,37 @@ package
 			
 			function complete(event:Event):void
 			{
+				var dataStr:String = event.currentTarget.data.toString();
+				var resultVars:URLVariables = new URLVariables();
+				resultVars.decode(dataStr);
+			   
+				response.path = "http://" + resultVars.base + resultVars.filename;
 				response.type = event.type;
-				allEventFn(event.type);
+				allEventFn(response);
 			}
 			
 			function httpStatus(event:HTTPStatusEvent):void
 			{
 				response.type = event.type;
-				allEventFn(event.type);
+				allEventFn(response);
 			}
 			
 			function ioError(event:IOErrorEvent):void
 			{
 				response.type = event.type;
-				allEventFn(event.type);
+				allEventFn(response);
 			}
 			
 			function progress(event:ProgressEvent):void
 			{
 				response.type = event.type;
-				allEventFn(event.type);
+				allEventFn(response);
 			}
 			
 			function open(event:Event):void
 			{
 				response.type = event.type;
-				allEventFn(event.type);
+				allEventFn(response);
 			}
 		}
 		

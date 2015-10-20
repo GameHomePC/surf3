@@ -34,7 +34,13 @@ package
 		private static const SCALE_MAT:Matrix = new Matrix(1/SCALE, 0, 0, 1/SCALE, 0, 0);
 		private static const ORIGIN:Point = new Point();
 		
+		private var _maxCounter:Number;
+		private var _counter:Number = 0;
+		private var _obj_bmds:Object = {};
+		
 		private var _view:Sprite;
+		private var _bg:Bitmap;
+		private var _bg_matrix:Matrix;
 		private var _screenBitmap:Bitmap;
 		private var _cameraImage:CameraImage;
 		private var _cameraImageBitmap:BitmapData;
@@ -62,11 +68,8 @@ package
 			loadMarkers(create)
 		}
 		
-		private function create():void
+		private function addExternal():void
 		{
-			_stageWidth = stage.stageWidth;
-			_stageHeight = stage.stageHeight;
-			
 			ExternalInterface.addCallback('_createScreen', function():void {
 				
 				var stageBitmap:BitmapData = new BitmapData(_stageWidth, _stageHeight);
@@ -81,6 +84,18 @@ package
 				
 			});
 			
+			ExternalInterface.addCallback('_pointMatchFactor', onMatchFactorChange);
+			ExternalInterface.addCallback('_pointsThreshold', onThresholdChange);
+			ExternalInterface.addCallback('_imageProcessor', onCorrectLevels);
+		}
+		
+		private function create():void
+		{
+			_stageWidth = stage.stageWidth;
+			_stageHeight = stage.stageHeight;
+			
+			addExternal();
+			
 			_view = new Sprite();
 			_view.x = 0;
 			_view.y = 0;
@@ -91,12 +106,17 @@ package
 			_overlay = new Shape();
 			_view.addChild(_overlay);
 			
+			_bg = new Bitmap();
+			_bg.x = 0;
+			_bg.y = 0;
+			_view.addChild(_bg);
+			
 			_cameraImage = new CameraImage(_stageWidth, _stageHeight, 30);
 			_cameraImageBitmap = _cameraImage._bitmapImage;
 			
 			_screenBitmap.bitmapData = _cameraImageBitmap;
 			
-			surfOptions = new SURFOptions(int(_stageWidth / SCALE), int(_stageHeight / SCALE), 200, 0.006, true, 4, 4, 2);
+			surfOptions = new SURFOptions(int(_stageWidth / SCALE), int(_stageHeight / SCALE), 200, 0.001, true, 4, 4, 2);
 			surf = new ASSURF(surfOptions);
 			surf.pointMatchFactor = 0.3;
 			
@@ -124,23 +144,43 @@ package
 			var ipts:Vector.<IPoint> = surf.getInterestPoints(_buffer);
 			// SURFUtils.drawIPoints(gfx, ipts, SCALE);
 			
-			var matched:Vector.<MatchElement> = new Vector.<MatchElement>();
-			var matchedStr:Vector.<String> = new Vector.<String>();
 			
 			var len:uint = bmds.length;
 			var i:uint;
 			var el:MatchElement;
 			
+			var matches:Array = [];
+			
 			for (i = 0; i < len; i++) {
 				el = matchEls[i];
 				el.matchCount = surf.getMatchesToPointsData(el.pointsCount, el.pointsData).length;
-				if (el.matchCount >= 4){
-					matched.push(el);
-					matchedStr.push(bmds[i].name +'-' + el.matchCount);
-					ExternalInterface.call('_detectImage', bmds[i].name);
+				if (el.matchCount >= 4) {
+					matches.push(el);
+					drawBorder(bmds[i]);
 				}
 			}
 			
+			if (matches.length){
+				_bg.visible = true;
+			} else {
+				_bg.visible = false;
+			}
+			
+		}
+		
+		private function drawBorder(item:Object):void
+		{
+
+			var name:String = item.name;
+			var background:BitmapData = item.background;
+			
+			_bg_matrix = new Matrix();
+			_bg_matrix.scale(_stageWidth / background.width, 1);
+			_bg.bitmapData = new BitmapData(_stageWidth, _stageHeight, true, 0x000000);
+			_bg.bitmapData.draw(background, _bg_matrix);
+			
+			
+			ExternalInterface.call('_detectImage', name);
 		}
 		
 		private function initMatchElements():void
@@ -149,7 +189,7 @@ package
 			var i:uint;
 			var el:MatchElement;
 			
-			var matchOptions:SURFOptions = new SURFOptions(320, 240, 400, 0.0001, true, 4, 4, 2);
+			var matchOptions:SURFOptions = new SURFOptions(320, 100, 400, 0.0001, true, 4, 4, 2);
 			
 			for (i = 0; i < len; i++) {
 				el = new MatchElement();
@@ -173,7 +213,6 @@ package
 		{
 			
 			var flashvars:Boolean = true;
-				
 			var i:uint;
 			var len:uint;
 			var item:Object;
@@ -190,10 +229,11 @@ package
 						var dataMain:Object = JSON.parse(paramObj.images);
 						data = dataMain.data;
 						len = data.length;
+						_maxCounter = len * 2;
 						
 						for (i = 0; i < len; i++) {
 							item = data[i];
-							loadMarker(item, i, len, callback);
+							newLoadMarkers(item, callback);
 						}
 						
 					}
@@ -204,27 +244,60 @@ package
 			} else {
 				
 				data = [{
-					url: 'http://c2364.paas2.ams.modxcloud.com/assets/as3/webx/assets/markers/boy.jpg',
+					links: {
+						url: 'http://c2364.paas2.ams.modxcloud.com/assets/as3/webx/assets/markers/alpen-cold-1.jpg',
+						background: 'http://c2364.paas2.ams.modxcloud.com/assets/as3/webx/assets/background/1.png'
+					},
 					name: 'boy'
+				},{
+					links: {
+						url: 'http://c2364.paas2.ams.modxcloud.com/assets/as3/webx/assets/markers/checks.png',
+						background: 'http://c2364.paas2.ams.modxcloud.com/assets/as3/webx/assets/background/2.png'
+					},
+					name: 'checks'
+				},{
+					links: {
+						url: 'http://c2364.paas2.ams.modxcloud.com/assets/as3/webx/assets/markers/pinocchio.jpg',
+						background: 'http://c2364.paas2.ams.modxcloud.com/assets/as3/webx/assets/background/3.png'
+					},
+					name: 'pinocchio'
 				}];
 				
 				len = data.length;
+				_maxCounter = len * 2;
 				
 				for (i = 0; i < len; i++) {
 					item = data[i];
-					loadMarker(item, i, len, callback);
+					newLoadMarkers(item, callback);
 				}
 				
 			}
 		}
 		
-		private function loadMarker(item:Object, index:uint, len:uint, callback:Function):void
+		private function newLoadMarkers(item:Object, callback:Function):void
+		{
+			var name:String = item.name;
+			var links:Object = item.links;
+			var p:String;
+			var value:String;
+			for (p in links){
+				if (p == 'url' || p == 'background') {
+					if (!(name in _obj_bmds)) _obj_bmds[name] = {}; 	
+					value = links[p];
+					newLoadImage(name, p, value, callback);
+				} else {
+					continue;
+				}
+			}
+			
+		}
+		
+		private function newLoadImage(name:String, key:String, value:String, callback:Function):void
 		{
 			
-			var url:String = item.url;
-			var name:String = item.name;
+			var item:Object = _obj_bmds[name];
 			
-			var requestLoader:URLRequest = new URLRequest(url);
+			var requestLoader:URLRequest = new URLRequest(value);
 			requestLoader.method = 'GET';
 			
 			var loader:Loader = new Loader();
@@ -237,22 +310,60 @@ package
 				var bitmap:Bitmap = event.target.content;
 				var bitmapData:BitmapData = bitmap.bitmapData;
 				
-				trace(bitmapData, bmds.length);
+				switch(key){
+					case 'url':
+						item['bitmapdata'] = bitmapData;
+						break;
+					case 'background':
+						item['background'] = bitmapData;
+						break;
+				}
 				
-				bmds.push({
-					name: name,
-					bitmapdata: bitmapData
-				});
+				_counter += 1;
 				
-				if (index == len - 1){
+				if (_counter == _maxCounter) {
+					var newKey:String;
+					var newDataKey:String;
+					var newData:Object;
+					
+					for (newKey in _obj_bmds) {
+						newData = _obj_bmds[newKey];
+						
+						bmds.push({
+							name: newKey,
+							bitmapdata: newData.bitmapdata,
+							background: newData.background
+						});
+						
+					}
+					
 					var timerCreate:Timer = new Timer(100, 1);
 					timerCreate.start();
 					timerCreate.addEventListener(TimerEvent.TIMER_COMPLETE, function(eventTimer:TimerEvent):void {
 						callback();
 					});
 				}
+				
 			}
 			
+		}
+		
+		private function onCorrectLevels(value:Boolean):void
+		{
+			surf.imageProcessor = value ? _quasimondoProcessor : null;
+			ExternalInterface.call('_imageProcessor', value);
+		}
+		
+		private function onThresholdChange(value:Number):void
+		{
+			surf.pointsThreshold = value;
+			ExternalInterface.call('_pointsThreshold', value);
+		}
+		
+		private function onMatchFactorChange(value:Number):void
+		{
+			surf.pointMatchFactor = value;
+			ExternalInterface.call('_pointMatchFactor', value);
 		}
 		
 	}
