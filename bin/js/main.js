@@ -4,23 +4,20 @@ var App = (function(){
 	
 	var data = [{
 		links: {
-            url: 'http://c2364.paas2.ams.modxcloud.com/assets/as3/webx/assets/markers/alpen-cold-3.jpg',
-            background: 'http://c2364.paas2.ams.modxcloud.com/assets/as3/webx/assets/background/cocos.png'
-        },
-		name: 'cocos'
+			background: 'http://c2364.paas2.ams.modxcloud.com/assets/as3/webx/assets/background/cocos.png'
+		},
+		id: 0
 	},{
-        links: {
-            url: 'http://c2364.paas2.ams.modxcloud.com/assets/as3/webx/assets/markers/alpen-cold-1.jpg',
-            background: 'http://c2364.paas2.ams.modxcloud.com/assets/as3/webx/assets/background/hazelnut.png'
-        },
-		name: 'hazelnut'
+		links: {
+			background: 'http://c2364.paas2.ams.modxcloud.com/assets/as3/webx/assets/background/hazelnut.png'
+		},
+		id: 1
 	},{
-        links: {
-            url: 'http://c2364.paas2.ams.modxcloud.com/assets/as3/webx/assets/markers/alpen-cold-2.jpg',
-            background: 'http://c2364.paas2.ams.modxcloud.com/assets/as3/webx/assets/background/max_fun.png'
-        },
-        name: 'max_fun'
-    }];
+		links: {
+			background: 'http://c2364.paas2.ams.modxcloud.com/assets/as3/webx/assets/background/max_fun.png'
+		},
+		id: 2
+	}];
 	
     var options = {
         flashvars: {
@@ -34,7 +31,7 @@ var App = (function(){
             allowFullscreen: "true",
             allowScriptAccess: "always",
             bgcolor: "",
-            wmode: "direct" // can cause issues with FP settings & webcam
+            wmode: "direct"
         },
         attributes: {
             id: id,
@@ -57,25 +54,10 @@ var App = (function(){
         args = args || [];
 
         var movie = this.getMovie(id);
-        movie[methodName].apply(null, args)
-    };
-
-    service.addDebug = function(){
-        var pointMatchFactor = document.getElementById('pointMatchFactor');
-        var threshold = document.getElementById('threshold');
-        var imageProcessor = document.getElementById('imageProcessor');
-
-        pointMatchFactor.addEventListener('change', function(e){
-            service.api('_pointMatchFactor', [pointMatchFactor.value]);
-        }, false);
-
-        threshold.addEventListener('change', function(e){
-            service.api('_pointsThreshold', [threshold.value]);
-        }, false);
-
-        imageProcessor.addEventListener('change', function(e){
-            service.api('_imageProcessor', [imageProcessor.checked]);
-        }, false);
+		
+		try {
+			movie[methodName].apply(null, args)
+		} catch(err){}
     };
 
     return service;
@@ -105,8 +87,6 @@ var App = (function(){
 })();
 
 function _createScreen(data){
-    console.log(data);
-
     var parse;
     try {
         parse = JSON.parse(data);
@@ -126,22 +106,4 @@ function _createScreen(data){
     } catch(err){}
 }
 
-function _detectImage(data){
-	console.log(data);
-}
-
-function _debug(name){
-	console.log(name);
-}
-
-function _pointMatchFactor(value){
-    console.log(value);
-}
-
-function _pointsThreshold(value){
-    console.log(value);
-}
-
-function _imageProcessor(value){
-    console.log(value);
-}
+function _detectImage(index){}

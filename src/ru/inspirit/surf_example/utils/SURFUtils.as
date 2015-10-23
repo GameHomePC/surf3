@@ -16,7 +16,7 @@ package ru.inspirit.surf_example.utils {
 	 */
 	public class SURFUtils 
 	{
-		public static const SURF_POINTS_FILTER:FileFilter = new FileFilter ("FlashSURF Data file","*.fsurf");
+		public static const SURF_POINTS_FILTER:FileFilter = new FileFilter ("FlashSURF Data file", "*.fsurf");
 		
 		private static var fileReference:FileReference = new FileReference();
 		private static var onOpenFile:Function;

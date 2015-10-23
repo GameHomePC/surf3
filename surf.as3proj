@@ -52,8 +52,8 @@
   </includeLibraries>
   <!-- SWC Libraries -->
   <libraryPaths>
-    <element path="lib\ASSURF.swc" />
     <element path="lib\as3corelib.swc" />
+    <element path="lib\ASSURF.swc" />
   </libraryPaths>
   <!-- External Libraries -->
   <externalLibraryPaths>
