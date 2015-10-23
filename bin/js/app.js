@@ -1,24 +1,26 @@
 var App = (function(){
 
     var id = 'surf';
-	
+
+    /* обложки дл€ трЄх типов, можно мен€ть картинки дл€ наложени€ на видео */
 	var data = [{
 		links: {
-			background: 'http://c2364.paas2.ams.modxcloud.com/assets/as3/webx/assets/background/cocos.png'
+			background: 'assets/background/cocos.png'
 		},
 		id: 0
 	},{
 		links: {
-			background: 'http://c2364.paas2.ams.modxcloud.com/assets/as3/webx/assets/background/hazelnut.png'
+			background: 'assets/background/hazelnut.png'
 		},
 		id: 1
 	},{
 		links: {
-			background: 'http://c2364.paas2.ams.modxcloud.com/assets/as3/webx/assets/background/max_fun.png'
+			background: 'assets/background/max_fun.png'
 		},
 		id: 2
 	}];
-	
+
+    /* создание флеш на странице */
     var options = {
         flashvars: {
 			images: JSON.stringify({
@@ -65,7 +67,6 @@ var App = (function(){
 })();
 
 (function(){
-
     var flashvars = App.getOption('flashvars');
     var params = App.getOption('params');
     var attributes = App.getOption('attributes');
@@ -79,13 +80,11 @@ var App = (function(){
 			e.preventDefault();
 			App.api('_createScreen');
 		});
-
-        // App.addDebug();
-		
 	});
-
 })();
 
+/* основные функциии */
+/* делает скрин */
 function _createScreen(data){
     var parse;
     try {
@@ -106,4 +105,9 @@ function _createScreen(data){
     } catch(err){}
 }
 
-function _detectImage(index){}
+/*
+    определ€ет три типа, аргумент index возвращает нужные данные дл€ дальнейшей манипул€ции, весь коде пишетс€ внутри
+*/
+function _detectImage(index){
+
+}
