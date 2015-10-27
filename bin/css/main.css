@@ -7,6 +7,7 @@ body {
 .video {
 	display: inline-block;
     border: 12px solid #993e96;
+    box-sizing: border-box;
 }
 
 .wrapper {
@@ -24,6 +25,7 @@ body {
     width: 670px;
     padding: 10px 0;
     box-sizing: border-box;
+    text-align: center;
 }
 
 .block-right {
