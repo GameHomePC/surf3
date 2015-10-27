@@ -65,6 +65,8 @@ package
 		public var surf:ASSURF;
 		public var surfOptions:SURFOptions;
 		
+		public var _marginBg:Number = 5;
+		
 		public function Main() 
 		{
 			if (stage) init();
@@ -123,8 +125,8 @@ package
 			_view.addChild(_overlay);
 			
 			_bg = new Bitmap();
-			_bg.x = 0;
-			_bg.y = 0;
+			_bg.x = _marginBg;
+			_bg.y = _marginBg;
 			_view.addChild(_bg);
 			
 			_cameraImage = new CameraImage(_stageWidth, _stageHeight, 30);
@@ -201,10 +203,12 @@ package
 
 			var id:String = item.id;
 			var background:BitmapData = item.background;
+			var newWidth:Number = (_stageWidth - (_marginBg * 2));
+			var newHeight:Number = (_stageHeight - (_marginBg * 2));
 			
 			_bg_matrix = new Matrix();
-			_bg_matrix.scale(_stageWidth / background.width, 1);
-			_bg.bitmapData = new BitmapData(_stageWidth, _stageHeight, true, 0x000000);
+			_bg_matrix.scale(newWidth / background.width, newHeight / background.height);
+			_bg.bitmapData = new BitmapData(newWidth, newHeight, true, 0x000000);
 			_bg.bitmapData.draw(background, _bg_matrix);
 			
 			if (_addExternalMain){
