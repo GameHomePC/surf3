@@ -33,7 +33,7 @@ package
 	import ru.inspirit.surf_example.utils.SURFUtils;
 	import ru.inspirit.surf_example.utils.QuasimondoImageProcessor;
 	
-	[SWF(width="593", height="446")]
+	[SWF(width="594", height="450")]
 	
 	public class Main extends Sprite 
 	{
