@@ -5,17 +5,17 @@ var App = (function(){
     /* обложки для трёх типов, можно менять картинки для наложения на видео */
 	var data = [{
 		links: {
-			background: 'assets/background/cocos.png'
+			background: 'assets/background/cocos-new.png'
 		},
 		id: 0
 	},{
 		links: {
-			background: 'assets/background/hazelnut.png'
+			background: 'assets/background/hazelnut-new.png'
 		},
 		id: 1
 	},{
 		links: {
-			background: 'assets/background/max_fun.png'
+			background: 'assets/background/max_fun-new.png'
 		},
 		id: 2
 	}];
