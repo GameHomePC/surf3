@@ -113,6 +113,9 @@ function _detectImage(index){
 
 }
 
+/*
+	определяет установлена ли камера на компьютере, если нет камеры то будет вызвана эта функция
+*/
 function _cameraError(err){
 	console.log(err);
 }
