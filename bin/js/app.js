@@ -112,3 +112,7 @@ function _createScreen(data){
 function _detectImage(index){
 
 }
+
+function _cameraError(err){
+	console.log(err);
+}

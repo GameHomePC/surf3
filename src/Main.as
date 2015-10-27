@@ -44,7 +44,8 @@ package
 		
 		private var _maxCounter:Number;
 		private var _counter:Number = 0;
-		private var _obj_bmds:Object = {};
+		private var _obj_bmds:Object = { };
+		private var _addExternalMain:Boolean = true;
 		
 		private var _view:Sprite;
 		private var _bg:Bitmap;
@@ -107,7 +108,9 @@ package
 			_stageWidth = stage.stageWidth;
 			_stageHeight = stage.stageHeight;
 			
-			addExternal();
+			if (_addExternalMain){
+				addExternal();
+			}
 			
 			_view = new Sprite();
 			_view.x = 0;
@@ -125,6 +128,7 @@ package
 			_view.addChild(_bg);
 			
 			_cameraImage = new CameraImage(_stageWidth, _stageHeight, 30);
+			_cameraImage._addExternal = _addExternalMain;
 			_cameraImageBitmap = _cameraImage._bitmapImage;
 			
 			_screenBitmap.bitmapData = _cameraImageBitmap;
@@ -203,8 +207,9 @@ package
 			_bg.bitmapData = new BitmapData(_stageWidth, _stageHeight, true, 0x000000);
 			_bg.bitmapData.draw(background, _bg_matrix);
 			
-			
-			ExternalInterface.call('_detectImage', id);
+			if (_addExternalMain){
+				ExternalInterface.call('_detectImage', id);
+			}
 		}
 		
 		private function initMatchElements():void
