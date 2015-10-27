@@ -1,6 +1,6 @@
 html,body{height:100%;}
 body{margin:0;font-family:Arial,sans-serif;}
-.video{width:640px;height:360px;border:12px solid #993e96;}
+.video{display:inline-block;border:12px solid #993e96;}
 .wrapper{width:800px;margin:0 auto;}
 .fn{font-size:0;}
 .block-left{display:inline-block;vertical-align:top;width:670px;padding:10px 0;box-sizing:border-box;}

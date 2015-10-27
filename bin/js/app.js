@@ -73,7 +73,7 @@ var App = (function(){
     var attributes = App.getOption('attributes');
 	var rand = (debug) ? (Math.random() * 1000) : 1;
 	
-    swfobject.embedSWF("surf.swf?v=" + rand, "altContent", "640", "360", "10.0.0", "expressInstall.swf", flashvars, params, attributes, function(){
+    swfobject.embedSWF("surf.swf?v=" + rand, "altContent", "593", "446", "10.0.0", "expressInstall.swf", flashvars, params, attributes, function(){
 		var movie = App.getMovie('surf');
 		var btn = document.getElementById('screen');
 		

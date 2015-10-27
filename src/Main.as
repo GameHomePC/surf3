@@ -33,7 +33,7 @@ package
 	import ru.inspirit.surf_example.utils.SURFUtils;
 	import ru.inspirit.surf_example.utils.QuasimondoImageProcessor;
 	
-	[SWF(width="640", height="360")]
+	[SWF(width="593", height="446")]
 	
 	public class Main extends Sprite 
 	{
@@ -241,7 +241,7 @@ package
 		private function loadMarkers(callback:Function):void
 		{
 			
-			var flashvars:Boolean = true;
+			var flashvars:Boolean = _addExternalMain;
 			var i:uint;
 			var len:uint;
 			var item:Object;
@@ -274,17 +274,17 @@ package
 				
 				data = [{
 					links: {
-						background: 'http://c2364.paas2.ams.modxcloud.com/assets/as3/webx/assets/background/cocos.png'
+						background: 'assets/background/cocos-new.png'
 					},
 					id: 0
 				},{
 					links: {
-						background: 'http://c2364.paas2.ams.modxcloud.com/assets/as3/webx/assets/background/hazelnut.png'
+						background: 'assets/background/hazelnut-new.png'
 					},
 					id: 1
 				},{
 					links: {
-						background: 'http://c2364.paas2.ams.modxcloud.com/assets/as3/webx/assets/background/max_fun.png'
+						background: 'assets/background/max_fun-new.png'
 					},
 					id: 2
 				}];
