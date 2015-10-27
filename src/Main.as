@@ -182,11 +182,13 @@ package
 				}
 			}
 			
+			/*
 			if (matches.length){
 				_bg.visible = true;
 			} else {
 				_bg.visible = false;
 			}
+			*/
 			
 		}
 		
