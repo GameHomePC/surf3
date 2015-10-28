@@ -135,16 +135,16 @@ package
 			
 			_screenBitmap.bitmapData = _cameraImageBitmap;
 			
-			surfOptions = new SURFOptions(int(_stageWidth / SCALE), int(_stageHeight / SCALE), 200, 0.0010, true, 4, 4, 2);
+			surfOptions = new SURFOptions(int(_stageWidth / SCALE), int(_stageHeight / SCALE), 200, 0.002, true, 4, 4, 2);
 			surf = new ASSURF(surfOptions);
-			surf.pointMatchFactor = 0.54;
+			surf.pointMatchFactor = 0.40;
 			
 			_buffer = new BitmapData(surfOptions.width, surfOptions.height, false, 0x00);
 			_buffer.lock();
 			
 			_quasimondoProcessor = new QuasimondoImageProcessor(_buffer.rect);
 			
-			surf.imageProcessor = null;
+			surf.imageProcessor = _quasimondoProcessor;
 			
 			addChild(_view);
 			
@@ -160,11 +160,12 @@ package
 		private function render(event:Event):void
 		{
 			var gfx:Graphics = _overlay.graphics;
-			gfx.clear();
 			
 			_buffer.draw(_cameraImage._bitmapImage, SCALE_MAT);
 			
 			var ipts:Vector.<IPoint> = surf.getInterestPoints(_buffer);
+			
+			gfx.clear();
 			// SURFUtils.drawIPoints(gfx, ipts, SCALE);
 			
 			
