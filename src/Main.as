@@ -135,16 +135,16 @@ package
 			
 			_screenBitmap.bitmapData = _cameraImageBitmap;
 			
-			surfOptions = new SURFOptions(int(_stageWidth / SCALE), int(_stageHeight / SCALE), 200, 0.002, true, 4, 4, 2);
+			surfOptions = new SURFOptions(int(_stageWidth / SCALE), int(_stageHeight / SCALE), 200, 0.001, true, 4, 4, 2);
 			surf = new ASSURF(surfOptions);
-			surf.pointMatchFactor = 0.40;
+			surf.pointMatchFactor = 0.30;
 			
 			_buffer = new BitmapData(surfOptions.width, surfOptions.height, false, 0x00);
 			_buffer.lock();
 			
 			_quasimondoProcessor = new QuasimondoImageProcessor(_buffer.rect);
 			
-			surf.imageProcessor = _quasimondoProcessor;
+			surf.imageProcessor = null;
 			
 			addChild(_view);
 			
@@ -286,12 +286,12 @@ package
 					links: {
 						background: 'assets/background/hazelnut-new.png'
 					},
-					id: 1
+					id: 2
 				},{
 					links: {
 						background: 'assets/background/max_fun-new.png'
 					},
-					id: 2
+					id: 1
 				}];
 				
 				len = data.length;

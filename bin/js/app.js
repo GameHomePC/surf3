@@ -12,12 +12,12 @@ var App = (function(){
 		links: {
 			background: 'assets/background/hazelnut-new.png'
 		},
-		id: 1
+		id: 2
 	},{
 		links: {
 			background: 'assets/background/max_fun-new.png'
 		},
-		id: 2
+		id: 1
 	}];
 
     /* создание флеш на странице */
