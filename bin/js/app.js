@@ -19,13 +19,14 @@ var App = (function(){
 		},
 		id: 1
 	}];
+	
+	data = JSON.stringify({data: data});
+	data = encodeURIComponent(data);
 
     /* создание флеш на странице */
     var options = {
         flashvars: {
-			images: JSON.stringify({
-				data: data
-			})
+			images: data
 		},
         params: {
             menu: "false",
