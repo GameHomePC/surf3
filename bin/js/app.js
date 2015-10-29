@@ -58,7 +58,7 @@ var App = (function(){
         var movie = this.getMovie(id);
 		
 		try {
-			movie[methodName].apply(null, args)
+			movie[methodName](args);
 		} catch(err){}
     };
 
@@ -79,6 +79,7 @@ var App = (function(){
 		
 		btn.addEventListener('click', function(e){
 			e.preventDefault();
+			
 			App.api('_createScreen');
 		});
 	});
@@ -116,6 +117,4 @@ function _detectImage(index){
 /*
 	определяет установлена ли камера на компьютере, если нет камеры то будет вызвана эта функция
 */
-function _cameraError(err){
-	console.log(err);
-}
+function _cameraError(err){}
